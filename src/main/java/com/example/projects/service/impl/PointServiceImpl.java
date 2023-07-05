@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,16 +28,14 @@ public class PointServiceImpl implements PointService {
 
     public List<GroupDTO> getAll(){
         List<Group> groups = geoRepository.findAllGroup();
-        List<GroupDTO> groupDTOS = new ArrayList<>();
-        for(Group group: groups){
-            groupDTOS.add(convertToGroupDTO(group));
-        }
-        return groupDTOS;
+        return getConvertedGroup(groups);
     }
 
+
+
     @Override
-    public GroupDTO getGroupById() {
-        return null;
+    public GroupDTO getGroupById(int id) {
+        return convertToGroupDTO(geoRepository.getById(id));
     }
 
     @Override
@@ -44,8 +43,19 @@ public class PointServiceImpl implements PointService {
         return geoRepository.getCountPointsFromGroups();
     }
 
+    @Override
+    public List<GroupDTO> getGroupsBeforeDate(Date date) {
+        return getConvertedGroup(geoRepository.getGroupsBefore(date));
+    }
 
     private GroupDTO convertToGroupDTO(Group group){
         return modelMapper.map(group,GroupDTO.class);
+    }
+    private List<GroupDTO> getConvertedGroup(List<Group> groups){
+        List<GroupDTO> groupDTOS = new ArrayList<>();
+        for(Group group: groups){
+            groupDTOS.add(convertToGroupDTO(group));
+        }
+        return groupDTOS;
     }
 }
