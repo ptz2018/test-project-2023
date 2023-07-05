@@ -8,21 +8,23 @@ import javax.persistence.*;
 public class Point {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private int id;
     private double x;
     private double y;
     @ManyToOne
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
 
     public Point() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

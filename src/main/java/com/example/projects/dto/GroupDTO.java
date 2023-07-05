@@ -4,13 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 public class GroupDTO {
-    private Long id;
+    private int id;
     private String name;
     private Date updatedAt;
 
     private List<PointDTO> points;
 
-    public GroupDTO(Long id, String name, Date updatedAt) {
+    public GroupDTO(int id, String name, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.updatedAt = updatedAt;
@@ -27,11 +27,11 @@ public class GroupDTO {
     public GroupDTO() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
