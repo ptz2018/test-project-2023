@@ -9,20 +9,21 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface GeoRepository extends JpaRepository<Group, Integer> {
+public interface GroupRepository extends JpaRepository<Group, Integer> {
 
     @Query("from Group")
     List<Group> findAllGroup();
 
     @Query("""
-select g.id, g.name, count(p.id) as count from Group g
-    left join Point p on g.id = p.group group by g.id, g.name
-""")
+                select g.id, g.name, count(p.id) as count from Group g
+                    left join Point p on g.id = p.group group by g.id, g.name
+    """)
     List<Object[]> getCountPointsFromGroups();
 
     @Query("from Group where updatedAt >= :date")
-    List<Group> getGroupsBefore(Date date);
+    List<Group> getGroupsAfter(Date date);
 
     @Query("from Group where id =:id")
     Group getById(int id);
+
 }

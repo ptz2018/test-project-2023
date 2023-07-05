@@ -1,15 +1,8 @@
 package com.example.projects.service;
 
-import com.example.projects.dto.GroupDTO;
-
-import java.util.Date;
-import java.util.List;
+import com.example.projects.dto.PointDTO;
+import com.example.projects.model.Point;
 
 public interface PointService {
-
-    public List<GroupDTO> getAll();
-    public GroupDTO getGroupById(int id);
-    public List<Object[]> getCountPointsFromGroups();
-    public List<GroupDTO> getGroupsBeforeDate(Date date);
-
+    public PointDTO update(PointDTO point, int id);
 }

@@ -1,7 +1,6 @@
 package com.example.projects.dto;
 
 public class PointDTO {
-
     private int id;
     private double x;
     private double y;
