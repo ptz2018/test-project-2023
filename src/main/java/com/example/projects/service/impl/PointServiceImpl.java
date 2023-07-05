@@ -28,7 +28,7 @@ public class PointServiceImpl implements PointService {
     @Transactional
     public PointDTO update(PointDTO pointDTO, int id) {
         Point point = convertPoint(pointDTO);
-        pointRepository.updatePointById(point.getX(), point.getY(),id);
+        pointRepository.updatePointById(point, id);
         return convertToPointDTO(pointRepository.getById(id));
     }
     private Point convertPoint(PointDTO pointDTO){

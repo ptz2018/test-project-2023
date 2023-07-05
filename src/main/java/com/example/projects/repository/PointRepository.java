@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface PointRepository extends JpaRepository<Point,Integer> {
 
     @Modifying
-    @Query("update Point p set p.x=:x, p.y=:y where p.id =:id")
-    void updatePointById(double x, double y, int id);
+    @Query("update Point p set p.x=:#{#point.x}, p.y=:#{#point.y} where p.id =:id")
+    void updatePointById(Point point, int id);
 
     Point getById(int id);
 }
