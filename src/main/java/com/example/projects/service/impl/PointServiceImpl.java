@@ -1,39 +1,40 @@
 package com.example.projects.service.impl;
 
-
 import com.example.projects.dto.GroupDTO;
+import com.example.projects.dto.PointDTO;
 import com.example.projects.model.Group;
-import com.example.projects.repository.GeoRepository;
+import com.example.projects.model.Point;
+import com.example.projects.repository.PointRepository;
+import com.example.projects.service.PointService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.transaction.Transactional;
 
 @Service
-@Transactional(readOnly=true)
-public class PointServiceImpl {
-    private final GeoRepository geoRepository;
+public class PointServiceImpl implements PointService {
+
+    private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public PointServiceImpl(GeoRepository geoRepository, ModelMapper modelMapper) {
-        this.geoRepository = geoRepository;
+    public PointServiceImpl(PointRepository pointRepository, ModelMapper modelMapper) {
+        this.pointRepository = pointRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<GroupDTO> getAll(){
-        List<Group> groups = geoRepository.findAllGroup();
-        List<GroupDTO> groupDTOS = new ArrayList<>();
-        for(Group group: groups){
-            groupDTOS.add(convertToGroupDTO(group));
-        }
-        return groupDTOS;
+    @Override
+    @Transactional
+    public PointDTO update(PointDTO pointDTO, int id) {
+        Point point = convertPoint(pointDTO);
+        pointRepository.updatePointById(point, id);
+        return convertToPointDTO(pointRepository.getById(id));
     }
-
-    private GroupDTO convertToGroupDTO(Group group){
-        return modelMapper.map(group,GroupDTO.class);
+    private Point convertPoint(PointDTO pointDTO){
+        return modelMapper.map(pointDTO,Point.class);
+    }
+    private PointDTO convertToPointDTO(Point point){
+        return modelMapper.map(point,PointDTO.class);
     }
 }
