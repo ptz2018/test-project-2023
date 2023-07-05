@@ -23,10 +23,12 @@ public class PointRestController {
         this.groupService = groupService;
         this.pointService = pointService;
     }
+
     @GetMapping
     private List<GroupDTO> getAll(){
         return groupService.getAll();
     }
+
     @GetMapping("/count")
     private ResponseEntity<?> getCount(){
         return ResponseEntity.ok(groupService.getCountPointsFromGroups());
