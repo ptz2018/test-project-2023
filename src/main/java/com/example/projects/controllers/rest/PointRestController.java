@@ -1,7 +1,7 @@
 package com.example.projects.controllers.rest;
 
 
-import com.example.projects.service.PointService;
+import com.example.projects.service.impl.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class PointRestController {
-    private final PointService pointService;
+    private final PointServiceImpl pointService;
 
     @Autowired
-    public PointRestController(PointService pointService) {
+    public PointRestController(PointServiceImpl pointService) {
         this.pointService = pointService;
     }
 
