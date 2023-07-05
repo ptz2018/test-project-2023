@@ -14,8 +14,7 @@ public class Group {
     private String name;
     @Column(name = "updated_at")
     private Date updatedAt;
-    @OneToMany
-    private List<Point> points;
+
 
     public Group() {
     }
@@ -44,11 +43,5 @@ public class Group {
         this.updatedAt = updatedAt;
     }
 
-    public List<Point> getPoints() {
-        return points;
-    }
 
-    public void setPoints(List<Point> points) {
-        this.points = points;
-    }
 }
