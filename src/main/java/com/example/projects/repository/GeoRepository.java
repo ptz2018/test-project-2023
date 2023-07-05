@@ -12,4 +12,10 @@ public interface GeoRepository extends JpaRepository<Group, Integer> {
 
     @Query("from Group")
     List<Group> findAllGroup();
+
+    @Query("""
+select g.id, g.name, count(p.id) as count from Group g
+    left join Point p on g.id = p.group group by g.id, g.name
+""")
+    List<Object[]> getCountPointsFromGroups();
 }

@@ -8,5 +8,6 @@ public interface PointService {
 
     public List<GroupDTO> getAll();
     public GroupDTO getGroupById();
+    public List<Object[]> getCountPointsFromGroups();
 
 }

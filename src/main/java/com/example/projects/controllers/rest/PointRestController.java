@@ -25,4 +25,8 @@ public class PointRestController {
     private List<GroupDTO> getAll(){
         return pointService.getAll();
     }
+    @GetMapping("/count")
+    private ResponseEntity<?> getCount(){
+        return ResponseEntity.ok(pointService.getCountPointsFromGroups());
+    }
 }

@@ -4,6 +4,7 @@ package com.example.projects.service.impl;
 import com.example.projects.dto.GroupDTO;
 import com.example.projects.model.Group;
 import com.example.projects.repository.GeoRepository;
+import com.example.projects.service.PointService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly=true)
-public class PointServiceImpl {
+public class PointServiceImpl implements PointService {
     private final GeoRepository geoRepository;
     private final ModelMapper modelMapper;
 
@@ -32,6 +33,17 @@ public class PointServiceImpl {
         }
         return groupDTOS;
     }
+
+    @Override
+    public GroupDTO getGroupById() {
+        return null;
+    }
+
+    @Override
+    public List<Object[]> getCountPointsFromGroups() {
+        return geoRepository.getCountPointsFromGroups();
+    }
+
 
     private GroupDTO convertToGroupDTO(Group group){
         return modelMapper.map(group,GroupDTO.class);
