@@ -1,12 +1,15 @@
 package com.example.projects.controllers.rest;
 
 
+import com.example.projects.dto.GroupDTO;
 import com.example.projects.service.impl.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -19,7 +22,7 @@ public class PointRestController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(pointService.getAll());
+    private List<GroupDTO> getAll(){
+        return pointService.getAll();
     }
 }
