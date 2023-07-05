@@ -1,29 +1,37 @@
 package com.example.projects.model;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "`groups`")
 public class Group {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private int id;
     @Column(name = "name")
     private String name;
     @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-
+    @Column(name = "deleted_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deletedAt;
+    @OneToMany(mappedBy = "group")
+    private List<Point> points;
 
     public Group() {
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,5 +51,19 @@ public class Group {
         this.updatedAt = updatedAt;
     }
 
+    public List<Point> getPoints() {
+        return points;
+    }
 
+    public void setPoints(List<Point> points) {
+        this.points = points;
+    }
+
+    public Date getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Date deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 }
