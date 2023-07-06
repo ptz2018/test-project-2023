@@ -8,4 +8,10 @@ export default class PointService {
             .then(response=>response.data)
             .catch(error=>{throw new Error(error.response.data)})
     }
+
+    static async getGroupsByIds(ids){
+        return ids.length && axios.get(`${BASE_URL}/api/ids?ids=${ids}`)
+            .then(response=>response.data)
+            .catch(error=>{throw new Error(error.response.data)})
+    }
 }
