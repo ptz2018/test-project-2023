@@ -52,7 +52,7 @@ public class GroupServiceImpl implements GroupService {
 
     private List<GroupDTO> getConvertedGroup(List<Group> groups){
         return groups.stream()
-                .map(group -> convertToGroupDTO(group))
+                .map(this::convertToGroupDTO)
                 .collect(Collectors.toList());
     }
 
