@@ -1,7 +1,5 @@
 package com.example.projects.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
