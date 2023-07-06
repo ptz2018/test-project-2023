@@ -57,7 +57,7 @@ public class PointRestController {
     }
 
     @PatchMapping("/{point}")
-    private PointDTO updatePoint(@PathVariable Point point, @RequestBody PointDTO pointDTO) {
+    public PointDTO updatePoint(@PathVariable Point point, @RequestBody PointDTO pointDTO) {
         return pointService.update(pointDTO, point);
     }
 }

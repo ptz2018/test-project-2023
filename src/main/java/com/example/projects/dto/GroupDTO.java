@@ -7,16 +7,12 @@ public class GroupDTO {
     private int id;
     private String name;
     private Date updatedAt;
-
-    private  Date deletedAt;
-
     private List<PointDTO> points;
 
-    public GroupDTO(int id, String name, Date updatedAt, Date deletedAt) {
+    public GroupDTO(int id, String name, Date updatedAt) {
         this.id = id;
         this.name = name;
         this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
     }
 
     public List<PointDTO> getPoints() {
@@ -27,8 +23,7 @@ public class GroupDTO {
         this.points = points;
     }
 
-    public GroupDTO() {
-    }
+    public GroupDTO() {}
 
     public int getId() {
         return id;
@@ -52,13 +47,5 @@ public class GroupDTO {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Date getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Date deletedAt) {
-        this.deletedAt = deletedAt;
     }
 }

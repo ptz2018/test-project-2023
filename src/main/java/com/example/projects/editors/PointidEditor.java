@@ -1,15 +1,13 @@
 package com.example.projects.editors;
 
-import com.example.projects.dto.GroupDTO;
-import com.example.projects.model.Group;
+import com.example.projects.exceptions.WrongIdValueException;
 import com.example.projects.model.Point;
 import com.example.projects.repository.GroupRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.beans.PropertyEditorSupport;
 
-public class PointidEditor extends PropertyEditorSupport{
+public class PointidEditor extends PropertyEditorSupport {
     private final GroupRepository groupRepository;
 
     @Override
@@ -19,15 +17,15 @@ public class PointidEditor extends PropertyEditorSupport{
     }
 
     @Override
-    public void setAsText(String text) throws NumberFormatException{
-        Group group = groupRepository.getById(Integer.parseInt(text));
-        setValue(group);
+    public void setAsText(String text) {
+        if (NumberUtils.isParsable(text)) {
+            setValue(groupRepository.getById(Integer.parseInt(text)));
+        } else {
+            throw new WrongIdValueException("Wrong id parameter, please check it for letters or symbols");
+        }
     }
 
-    public PointidEditor(GroupRepository groupRepository){
+    public PointidEditor(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
-
-
-
 }
