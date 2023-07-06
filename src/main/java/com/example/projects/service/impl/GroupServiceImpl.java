@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly=true)
@@ -49,11 +49,9 @@ public class GroupServiceImpl implements GroupService {
         return modelMapper.map(group,GroupDTO.class);
     }
 
-    private List<GroupDTO> getConvertedGroup(List<Group> groups){
-        List<GroupDTO> groupDTOS = new ArrayList<>();
-        for(Group group: groups){
-            groupDTOS.add(convertToGroupDTO(group));
-        }
-        return groupDTOS;
+    private List<GroupDTO> getConvertedGroup(List<Group> groups) {
+        return groups.stream()
+                .map(this::convertToGroupDTO)
+                .collect(Collectors.toList());
     }
 }
