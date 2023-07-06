@@ -26,13 +26,12 @@ public class PointServiceImpl implements PointService {
 
     @Override
     @Transactional
-    public PointDTO update(PointDTO pointDTO, int id) {
-        Point point = convertPoint(pointDTO);
-        pointRepository.updatePointById(point, id);
-        return convertToPointDTO(pointRepository.getById(id));
-    }
-    private Point convertPoint(PointDTO pointDTO){
-        return modelMapper.map(pointDTO,Point.class);
+    public PointDTO update(PointDTO pointDTO, Point point) {
+        modelMapper.createTypeMap(PointDTO.class, Point.class)
+                .addMappings(mapper -> mapper.skip(Point::setId))
+                .map(pointDTO, point);
+        pointRepository.updatePointById(point);
+        return convertToPointDTO(pointRepository.getById(point.getId()));
     }
     private PointDTO convertToPointDTO(Point point){
         return modelMapper.map(point,PointDTO.class);

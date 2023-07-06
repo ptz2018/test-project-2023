@@ -4,5 +4,5 @@ import com.example.projects.dto.PointDTO;
 import com.example.projects.model.Point;
 
 public interface PointService {
-    public PointDTO update(PointDTO point, int id);
+    public PointDTO update(PointDTO pointDTO, Point point);
 }

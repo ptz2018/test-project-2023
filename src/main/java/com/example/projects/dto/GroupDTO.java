@@ -7,7 +7,6 @@ public class GroupDTO {
     private int id;
     private String name;
     private Date updatedAt;
-
     private List<PointDTO> points;
 
     public GroupDTO(int id, String name, Date updatedAt) {
@@ -24,8 +23,7 @@ public class GroupDTO {
         this.points = points;
     }
 
-    public GroupDTO() {
-    }
+    public GroupDTO() {}
 
     public int getId() {
         return id;
