@@ -16,7 +16,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
         Logger.getLogger(getClass().getCanonicalName()).log(Level.SEVERE, ex.getMessage(), ex);
-        return handleExceptionInternal(ex, ex.getLocalizedMessage(),
+        return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 }
