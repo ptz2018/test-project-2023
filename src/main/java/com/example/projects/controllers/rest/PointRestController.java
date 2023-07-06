@@ -48,4 +48,11 @@ public class PointRestController {
     private PointDTO updatePoint(@RequestBody PointDTO pointDTO, @PathVariable int id){
         return pointService.update(pointDTO, id);
     }
+
+    @GetMapping("/ids")
+    private List<GroupDTO> getGroupsByIds(@RequestParam List<Integer> ids){
+        return groupService.getGroupsByIds(ids);
+    }
+
+
 }

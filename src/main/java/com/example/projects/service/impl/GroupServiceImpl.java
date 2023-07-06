@@ -49,9 +49,16 @@ public class GroupServiceImpl implements GroupService {
         return modelMapper.map(group,GroupDTO.class);
     }
 
-    private List<GroupDTO> getConvertedGroup(List<Group> groups) {
+    private List<GroupDTO> getConvertedGroup(List<Group> groups){
         return groups.stream()
                 .map(this::convertToGroupDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<GroupDTO> getGroupsByIds(List<Integer> ids) {
+        List<Group> groups = groupRepository.getGroupsByIds(ids);
+        return getConvertedGroup(groups);
+
+
     }
 }
