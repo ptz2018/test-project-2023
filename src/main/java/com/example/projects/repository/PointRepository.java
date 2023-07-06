@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface PointRepository extends JpaRepository<Point,Integer> {
 
     @Modifying
-    @Query("update Point p set p.x=:#{#point.x}, p.y=:#{#point.y} where p.id =:id")
-    void updatePointById(Point point, int id);
+    @Query("update Point p set p.x=:#{#point.x}, p.y=:#{#point.y} where p.id =:#{#point.id}")
+    void updatePointById(Point point);
 
     Point getById(int id);
 }
