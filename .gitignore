@@ -5,4 +5,5 @@ out
 **/application.properties
 node_modules
 src/main/resources/static/rct/js
+src/main/resources/static/assets
 package-lock.json
