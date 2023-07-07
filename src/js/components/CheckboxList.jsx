@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import classes from './checkboxlist.module.css'
+import classes from './checkboxlist.module.scss'
 
 const CheckboxList = ({groups, onChange}) => {
     const [selectedGroups, setSelectedGroups] = useState([]);

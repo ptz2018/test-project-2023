@@ -1,0 +1,24 @@
+.chackbox_list {
+    position: absolute;
+    right: 35px;
+    top: 50px;
+    z-index: 1001;
+    & li{
+        background: #fff;
+        text-decoration: none;
+        display: flex;
+        width: 100%;
+        padding: 5px 10px;
+        column-gap: 5px;
+        border-radius: 10px
+    }
+    & ul {
+        display: flex;
+        list-style: none;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        padding: 5px 10px;
+        row-gap: 5px;
+    }
+}
