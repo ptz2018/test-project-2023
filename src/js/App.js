@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import './App.scss';
 import './styles/map.scss';
 
-import {RFeature, RLayerTile, RLayerVector, RMap, RStyle} from "rlayers";
+import {RFeature, RLayerTile, RLayerVector, RMap, RPopup, RStyle} from "rlayers";
 import {fromLonLat} from "ol/proj";
 import {Point} from "ol/geom";
 import PointService from "./service/PointService";
@@ -85,6 +85,11 @@ function App() {
                                     })
                                 }
                             >
+                                <RPopup trigger={"hover"} className="example-overlay">
+                                    <div className="marker_popup">
+                                        <p>lon: {p.y} <br/>lat: {p.x}</p>
+                                    </div>
+                                </RPopup>
                             </RFeature>))
                     }
                 </RLayerVector> }
