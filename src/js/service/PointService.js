@@ -10,8 +10,8 @@ export default class PointService {
     }
 
     static async getGroupsByIds(ids){
-        return ids.length && axios.get(`${BASE_URL}/api/ids?ids=${ids}`)
+        return ids.length > 0 ? axios.get(`${BASE_URL}/api/ids?ids=${ids}`)
             .then(response=>response.data)
-            .catch(error=>{throw new Error(error.response.data)})
+            .catch(error=>{throw new Error(error.response.data)}) : []
     }
 }

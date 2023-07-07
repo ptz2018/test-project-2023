@@ -21,7 +21,6 @@ function App() {
     const [groups, setGroups] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [basemap, setBasemap] = useState(basemapsDict[0].value);
-
     const center = {
         coords: [44.59223056940421, 33.7038952152284],
         zoom: 5
@@ -67,17 +66,18 @@ function App() {
                 options={basemapsDict}
                 onChange={basemap => setBasemap(basemap)}
             />
-            {groups.length && <>
+            { groups && groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
+
+            { selectedGroups && selectedGroups.length > 0 &&
                 <RLayerVector zIndex={10}>
                     <RStyle.RStyle>
                         <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} className="map__icon"/>
                     </RStyle.RStyle>
-                    <CheckboxList groups={groups} onChange={onSelectGroups}/>
                     {
-                        selectedGroups.length && selectedGroups.map(g => g.points.map(p =>
+                        selectedGroups.map(g => g.points.map(p =>
                             <RFeature
                                 key={p.id}
-                                geometry={new Point(fromLonLat([p.x, p.y]))}
+                                geometry={new Point(fromLonLat([p.y, p.x]))}
                                 onClick={(e) =>
                                     e.map.getView().fit(e.target.getGeometry().getExtent(), {
                                         duration: 250,
@@ -87,8 +87,7 @@ function App() {
                             >
                             </RFeature>))
                     }
-                </RLayerVector>
-            </>}
+                </RLayerVector> }
         </RMap>
     </div>;
 }
