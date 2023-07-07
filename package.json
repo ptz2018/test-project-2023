@@ -17,7 +17,8 @@
     "rlayers": "2.0.0-beta.0",
     "web-vitals": "^2.1.4",
     "sass-loader": "13.3.2",
-    "sass": "1.63.6"
+    "sass": "1.63.6",
+    "lodash": "4.17.21"
   },
   "devDependencies": {
     "react-openlayers": "^0.3.0",
