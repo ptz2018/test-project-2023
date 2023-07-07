@@ -28,21 +28,39 @@
     z-index: 1001;
     padding: 4px 6px;
     border-radius: 10px;
-    width: 145px;
+    width: 160px;
     font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
     font-size: 15px;
 }
-.ol-zoom-in, .ol-zoom-out {
-
-    padding: 5px;
+.ol-zoom{
+    display: flex;
+    flex-direction: row;
+}
+.ol-zoom-in {
+    padding: 15px;
     margin-top: 10px;
     margin-left: 10px;
+    font-size: 30px;
+    margin-top: 850px;
+    margin-left: 900px;
 }
+
+.ol-zoom-out {
+    padding: 15px;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 30px;
+    margin-top: 850px;
+    margin-left: 40px;
+}
+
 .ol-rotate {
     display: none;
 }
 
 .marker_popup {
+    margin-left:10px;
+    margin-top:10px;
     background: white;
     padding: 5px 10px;
     border-radius: 5px;
