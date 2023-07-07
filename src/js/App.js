@@ -85,7 +85,7 @@ function App() {
                                     })
                                 }
                             >
-                                <RPopup trigger={"onClick"} className="example-overlay">
+                                <RPopup trigger={"click"} className="example-overlay">
                                     <div className="marker_popup">
                                         <p>lon: {p.y} <br/>lat: {p.x}</p>
                                     </div>
