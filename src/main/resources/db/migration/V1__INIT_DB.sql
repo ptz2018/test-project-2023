@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS `geoapp_db`.`groups`
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8;
 
-
 CREATE TABLE IF NOT EXISTS `geoapp_db`.`points`
 (
     `id`       INT   NOT NULL,
@@ -34,7 +33,6 @@ CREATE TABLE IF NOT EXISTS `geoapp_db`.`points`
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8;
-
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
