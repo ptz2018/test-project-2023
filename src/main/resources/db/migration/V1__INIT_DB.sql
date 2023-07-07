@@ -69,4 +69,3 @@ INSERT INTO `points` (`id`, `x`, `y`, `group_id`)
 VALUES (15, 44.10765404067231, 42.982659259142764, 5);
 INSERT INTO `points` (`id`, `x`, `y`, `group_id`)
 VALUES (16, 45.77508990681652, 42.9124833601524, 5);
-

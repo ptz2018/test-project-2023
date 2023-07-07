@@ -4,7 +4,6 @@
     height: 100vh;
     margin-bottom: 1em;
 }
-
 .example-list {
     width: 150px;
     max-width: 150px;
@@ -43,4 +42,8 @@
     display: none;
 }
 
-
+.marker_popup {
+    background: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
