@@ -66,9 +66,9 @@ function App() {
                 options={basemapsDict}
                 onChange={basemap => setBasemap(basemap)}
             />
-            { groups.length && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
+            { groups && groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
 
-            { selectedGroups && selectedGroups.length>0 && <>
+            { selectedGroups && selectedGroups.length > 0 &&
                 <RLayerVector zIndex={10}>
                     <RStyle.RStyle>
                         <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} className="map__icon"/>
@@ -87,8 +87,7 @@ function App() {
                             >
                             </RFeature>))
                     }
-                </RLayerVector>
-            </>}
+                </RLayerVector> }
         </RMap>
     </div>;
 }
