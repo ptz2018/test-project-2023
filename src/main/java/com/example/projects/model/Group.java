@@ -20,7 +20,18 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Point> points;
 
+    @OneToMany(mappedBy = "group")
+    private List<Route> routes;
+
     public Group() {
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
     }
 
     public int getId() {

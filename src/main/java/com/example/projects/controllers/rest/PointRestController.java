@@ -3,11 +3,13 @@ package com.example.projects.controllers.rest;
 
 import com.example.projects.dto.GroupDTO;
 import com.example.projects.dto.PointDTO;
+import com.example.projects.dto.RouteDTO;
 import com.example.projects.editors.PointidEditor;
 import com.example.projects.model.Point;
 import com.example.projects.repository.GroupRepository;
 import com.example.projects.service.impl.GroupServiceImpl;
 import com.example.projects.service.impl.PointServiceImpl;
+import com.example.projects.service.impl.RouteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -21,7 +23,7 @@ import java.util.List;
 public class PointRestController {
     private final GroupServiceImpl groupService;
     private final PointServiceImpl pointService;
-
+    private final RouteServiceImpl routeService;
     private  final GroupRepository groupRepository;
 
     @InitBinder
@@ -30,9 +32,11 @@ public class PointRestController {
     }
 
     @Autowired
-    public PointRestController(GroupServiceImpl groupService, PointServiceImpl pointService, GroupRepository groupRepository) {
+    public PointRestController(GroupServiceImpl groupService, PointServiceImpl pointService,
+                               RouteServiceImpl routeService, GroupRepository groupRepository) {
         this.groupService = groupService;
         this.pointService = pointService;
+        this.routeService = routeService;
         this.groupRepository = groupRepository;
     }
 
@@ -66,5 +70,8 @@ public class PointRestController {
         return groupService.getGroupsByIds(ids);
     }
 
-
+    @GetMapping("/routes")
+    private List<RouteDTO> getAllRoutes(){
+        return routeService.getAllRoutes();
+    }
 }
