@@ -77,7 +77,7 @@ function App() {
                         selectedGroups.length && selectedGroups.map(g => g.points.map(p =>
                             <RFeature
                                 key={p.id}
-                                geometry={new Point(fromLonLat([p.x, p.y]))}
+                                geometry={new Point(fromLonLat([p.y, p.x]))}
                                 onClick={(e) =>
                                     e.map.getView().fit(e.target.getGeometry().getExtent(), {
                                         duration: 250,
