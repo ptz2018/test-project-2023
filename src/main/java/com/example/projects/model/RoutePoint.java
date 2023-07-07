@@ -3,20 +3,20 @@ package com.example.projects.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "points")
-public class Point {
-
+@Table(name="route_points")
+public class RoutePoint {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
     private double x;
     private double y;
+    private int order;
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
-    private Group group;
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
+    private Route route;
 
-    public Point() {
+    public RoutePoint() {
     }
 
     public int getId() {
@@ -25,6 +25,14 @@ public class Point {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public double getX() {
@@ -43,11 +51,11 @@ public class Point {
         this.y = y;
     }
 
-    public Group getGroup() {
-        return group;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

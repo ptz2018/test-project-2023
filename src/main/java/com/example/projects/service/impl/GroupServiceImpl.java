@@ -27,7 +27,7 @@ public class GroupServiceImpl implements GroupService {
 
     public List<GroupDTO> getAll(){
         List<Group> groups = groupRepository.findAllGroup();
-        return getConvertedGroup(groups);
+        return getConvertedGroups(groups);
     }
 
     @Override
@@ -42,23 +42,21 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupDTO> getGroupsAfterDate(Date date) {
-        return getConvertedGroup(groupRepository.getGroupsAfter(date));
+        return getConvertedGroups(groupRepository.getGroupsAfter(date));
+    }
+
+    public List<GroupDTO> getGroupsByIds(List<Integer> ids) {
+        List<Group> groups = groupRepository.getGroupsByIds(ids);
+        return getConvertedGroups(groups);
     }
 
     private GroupDTO convertToGroupDTO(Group group){
         return modelMapper.map(group,GroupDTO.class);
     }
 
-    private List<GroupDTO> getConvertedGroup(List<Group> groups){
+    private List<GroupDTO> getConvertedGroups(List<Group> groups){
         return groups.stream()
                 .map(this::convertToGroupDTO)
                 .collect(Collectors.toList());
-    }
-
-    public List<GroupDTO> getGroupsByIds(List<Integer> ids) {
-        List<Group> groups = groupRepository.getGroupsByIds(ids);
-        return getConvertedGroup(groups);
-
-
     }
 }
