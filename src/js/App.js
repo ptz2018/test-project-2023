@@ -14,44 +14,52 @@ function App() {
         {value: "https://tile.openstreetmap.org/{z}/{x}/{y}.png", name:"По умолчанию"},
         {value: "https://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", name:"Теплая"},
         {value: "https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png", name:"Топографическая "},
-        {value: "https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png", name:"Яркая"},
-        {value: "https://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", name:"Темная"}
+        {value: "https://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", name:"Темная"},
+        {value: "https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", name:"Аэропорты"},
+        {value: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", name:"Спутник"},
+        {value: "http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", name:"Подробная"},
     ]
 
     const [groups, setGroups] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [basemap, setBasemap] = useState(basemapsDict[0].value);
+    
     const center = {
         coords: [44.59223056940421, 33.7038952152284],
         zoom: 5
     }
-
+    
     useEffect(() => {
         fetchGroups();
     }, [])
 
-    const onSelectGroups = (ids) => {
+    function onSelectGroups (ids){
         fetchGroupsByIds(ids);
     }
 
-    async function fetchGroups() {
-        try {
-            const data = await PointService.getGroupsPoints();
-            setGroups(data);
-        } catch (error) {
-            console.error(error);
-        }
+    function fetchGroups() {
+        PointService.getGroupsPoints()
+          .then(groups=>setGroups(groups))
+          .catch(err=>{
+              console.log(err)
+          })
     }
 
-    async function fetchGroupsByIds(ids) {
-        try {
-            const data = await PointService.getGroupsByIds(ids);
-            setSelectedGroups(data);
-        } catch (error) {
-            console.error(error);
-        }
+    function fetchGroupsByIds(ids) {
+        PointService.getGroupsByIds(ids)
+          .then(groups=>setSelectedGroups(groups))
+          .catch(err=>{
+              console.log(err)
+          })
     }
-
+    
+    const handleMarkerClick = (e) => {
+        e.map.getView().fit(e.target.getGeometry().getExtent(), {
+            duration: 250,
+            maxZoom: 15,
+        })
+    }
+    
     const locationIcon = './svg/location.svg';
 
     return <div className="App">
@@ -78,12 +86,7 @@ function App() {
                             <RFeature
                                 key={p.id}
                                 geometry={new Point(fromLonLat([p.y, p.x]))}
-                                onClick={(e) =>
-                                    e.map.getView().fit(e.target.getGeometry().getExtent(), {
-                                        duration: 250,
-                                        maxZoom: 15,
-                                    })
-                                }
+                                onClick={(e) => handleMarkerClick(e)}
                             >
                                 <RPopup trigger={"click"} className="example-overlay">
                                     <div className="marker_popup">
