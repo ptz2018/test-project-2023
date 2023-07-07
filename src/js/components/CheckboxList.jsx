@@ -3,7 +3,6 @@ import classes from './checkboxlist.module.scss'
 
 const CheckboxList = ({groups, onChange}) => {
     const [selectedGroups, setSelectedGroups] = useState([]);
-
     const handleGroupChange = (groupId) => {
         const updatedSelectedGroups = [...selectedGroups];
         if (updatedSelectedGroups.includes(groupId)) {
