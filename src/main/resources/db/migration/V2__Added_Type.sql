@@ -64,5 +64,3 @@ WHERE id = 15;
 UPDATE 'points'
 SET 'point_type'= 'Blue'
 WHERE id = 16;
-
-
