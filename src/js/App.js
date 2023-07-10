@@ -113,7 +113,7 @@ function App() {
                                         </RStyle.RStyle>
                                         <RPopup ref={popup} trigger={'click'} className="example-overlay">
                                             <div className="marker_popup">
-                                                <p>{p.y} <br/>{p.x}</p>
+                                                <p>{p.y} <br/>{p.x},{p.description}</p>
                                             </div>
                                         </RPopup>
                                     </RFeature>)
