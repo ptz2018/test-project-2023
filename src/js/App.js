@@ -83,6 +83,7 @@ function App() {
 
     const locationIcon = './svg/location.svg';
     const pointIcon = './svg/point.svg';
+    const flagIcon = './svg/flag.png';
 
     return <div className="App">
         <RMap
@@ -141,8 +142,8 @@ function App() {
                                                     <RStyle.RStyle>
                                                         {
                                                             point.order === 1 || point.order === route.routePoints.length
-                                                                ? <RStyle.RIcon color={'red'} src={locationIcon} anchor={[0.5, 0.95]} className="map__icon"/>
-                                                                : <RStyle.RIcon color={'blue'} src={pointIcon} className="map__icon"/>
+                                                                ? <RStyle.RIcon color={'red'} src={flagIcon} anchor={[0.2, 0.95]}/>
+                                                                : <RStyle.RIcon color={'blue'} src={pointIcon}/>
                                                         }
                                                     </RStyle.RStyle>
                                                 </RFeature>)
