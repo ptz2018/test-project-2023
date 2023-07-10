@@ -34,7 +34,9 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupDTO getGroupById(int id) throws GroupNotFoundException {
         Group group = groupRepository.getById(id);
-        if (group==null) throw new GroupNotFoundException("group with id = "+id+" not found");
+        if (group==null) {
+            throw new GroupNotFoundException("group with id = "+id+" not found");
+        }
         return convertToGroupDTO(groupRepository.getById(id));
     }
 

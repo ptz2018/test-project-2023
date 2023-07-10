@@ -1,14 +1,14 @@
 import React from 'react';
-import './Modal.modul.scss';
-const CustomModal = ({children, visible, setVisible}) => {
+import './Modal.scss';
+import _ from 'lodash';
 
-    const rootClasses = ['create_object_modal']
-    if(visible) {
-        rootClasses.push('modal__active')
-    }
-    return (
-        <div className={rootClasses.join(' ')} onMouseDown={() => setVisible(false)}>
-            <div className={'my_modal'} onMouseDown={(e)=>e.stopPropagation()} >
+const CustomModal = ({children, visible, setVisible}) => {
+    const rootClasses = _.compact(
+        ['create_object_modal',
+        visible && 'modal__active']
+    );
+    return <div className={rootClasses.join(' ')} onMouseDown={() => setVisible(false)}>
+            <div className={'my_modal alert alert-danger'} onMouseDown={(e)=>e.stopPropagation()} >
                 <button
                     onClick={()=>setVisible(false)}
                     type="button"
@@ -18,8 +18,7 @@ const CustomModal = ({children, visible, setVisible}) => {
                 ></button>
                 {children}
             </div>
-        </div>
-    );
+        </div>;
 };
 
 export default CustomModal;
