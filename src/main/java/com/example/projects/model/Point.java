@@ -12,6 +12,7 @@ public class Point {
     private int id;
     private double x;
     private double y;
+    private String description;
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
@@ -50,5 +51,9 @@ public class Point {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 
 }
