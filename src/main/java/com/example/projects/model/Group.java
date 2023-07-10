@@ -9,9 +9,7 @@ import java.util.List;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private int id;
-    @Column(name = "name")
     private String name;
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -22,7 +20,18 @@ public class Group {
     @OneToMany(mappedBy = "group")
     private List<Point> points;
 
+    @OneToMany(mappedBy = "group")
+    private List<Route> routes;
+
     public Group() {
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
     }
 
     public int getId() {

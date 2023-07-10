@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import classes from './checkboxlist.module.scss'
-
+import classes from './checkboxlist.module.scss';
+import _ from 'lodash';
 const CheckboxList = ({groups, onChange}) => {
     const [selectedGroups, setSelectedGroups] = useState([]);
     const handleGroupChange = (groupId) => {
         const updatedSelectedGroups = selectedGroups.includes(groupId)
-                ? _.filter(selectedGroups, el => el != groupId)
+                ? _.filter(selectedGroups, el => el !== groupId)
                 : [...selectedGroups, groupId];
         setSelectedGroups(updatedSelectedGroups);
         onChange(updatedSelectedGroups);
