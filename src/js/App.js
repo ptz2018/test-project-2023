@@ -88,7 +88,7 @@ function App() {
                             >
                             <>
                                 <RStyle.RStyle>
-                                   <RStyle.RIcon src={locationByType(p.point_type)} anchor={[0.5, 0.8]} className="map__icon"/>
+                                   <RStyle.RIcon src={locationByType(p.pointType)} anchor={[0.5, 0.8]} className="map__icon"/>
                                 </RStyle.RStyle>
                                 <RPopup trigger={"hover"} className="example-overlay">
                                     <div className="marker_popup">
