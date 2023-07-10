@@ -72,13 +72,10 @@ function App() {
             />
             { groups && groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
 
-
             { selectedGroups && selectedGroups.length > 0 &&
                 <RLayerVector zIndex={10}>
-
                     {
                         selectedGroups.map(g => g.points.map(p =>
-
                             <RFeature
                                 key={p.id}
                                 geometry={new Point(fromLonLat([p.y, p.x]))}
@@ -90,15 +87,15 @@ function App() {
                                 }
                             >
                             <>
-                            <RStyle.RStyle>
+                                <RStyle.RStyle>
                                    <RStyle.RIcon src={locationByType(p.point_type)} anchor={[0.5, 0.8]} className="map__icon"/>
-                               </RStyle.RStyle>
+                                </RStyle.RStyle>
                                 <RPopup trigger={"hover"} className="example-overlay">
                                     <div className="marker_popup">
                                         <p>lon: {p.y} <br/>lat: {p.x}</p>
                                     </div>
                                 </RPopup>
-                                </>
+                            </>
                             </RFeature>))
                     }
                 </RLayerVector> }

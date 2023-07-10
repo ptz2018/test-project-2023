@@ -7,21 +7,21 @@ public class PointDTO {
     private double x;
     private double y;
 
-    private PointTypeEnum point_type;
+    private PointTypeEnum pointType;
 
     public PointDTO() {
     }
 
-    public PointDTO(int id, double x, double y, PointTypeEnum point_type) {
+    public PointDTO(int id, double x, double y, PointTypeEnum pointType) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.point_type = point_type;
+        this.pointType = pointType;
     }
 
-    public PointTypeEnum getPoint_type() { return point_type; }
+    public PointTypeEnum getPointType() { return pointType; }
 
-    public void setPoint_type(PointTypeEnum point_type) { this.point_type = point_type; }
+    public void setPointType(PointTypeEnum pointType) { this.pointType = pointType; }
 
     public int getId() {
         return id;

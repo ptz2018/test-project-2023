@@ -15,7 +15,7 @@ public class Point {
     private double x;
     private double y;
     @Enumerated(EnumType.STRING)
-    private PointTypeEnum point_type;
+    private PointTypeEnum pointType;
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
@@ -47,9 +47,9 @@ public class Point {
         this.y = y;
     }
 
-    public PointTypeEnum getPoint_type() { return point_type; }
+    public PointTypeEnum getPointType() { return pointType; }
 
-    public void setPoint_type(PointTypeEnum point_type) { this.point_type = point_type; }
+    public void setPointType(PointTypeEnum pointType) { this.pointType = pointType; }
 
     public Group getGroup() {
         return group;
