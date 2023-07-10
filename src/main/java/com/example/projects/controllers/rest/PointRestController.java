@@ -5,6 +5,7 @@ import com.example.projects.dto.GroupDTO;
 import com.example.projects.dto.PointDTO;
 import com.example.projects.dto.RouteDTO;
 import com.example.projects.editors.PointidEditor;
+import com.example.projects.exceptions.GroupNotFoundException;
 import com.example.projects.model.Point;
 import com.example.projects.repository.GroupRepository;
 import com.example.projects.service.impl.GroupServiceImpl;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class PointRestController {
     }
 
     @GetMapping("/{id}")
-    private GroupDTO getGroupById(@PathVariable int id){
+    private GroupDTO getGroupById(@PathVariable int id) throws GroupNotFoundException {
         return groupService.getGroupById(id);
     }
 

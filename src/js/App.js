@@ -5,9 +5,10 @@ import './styles/map.scss';
 import {RFeature, RLayerTile, RLayerVector, RMap, RPopup, RStyle} from "rlayers";
 import {fromLonLat} from "ol/proj";
 import {LineString, Point} from "ol/geom";
-import PointService from "./service/PointService";
+import PointService, {handleError} from "./service/PointService";
 import CheckboxList from "./components/CheckboxList.jsx";
 import CustomSelect from "./components/UI/CustomSelect.jsx";
+import CustomModal from "./components/modal/CustomModal.jsx";
 
 function App() {
     const basemapsDict = [
@@ -26,26 +27,26 @@ function App() {
     const [groups, setGroups] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
     const [basemap, setBasemap] = useState(basemapsDict[0].value);
-
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const popup = useRef();
 
     const center = {
         coords: [44.59223056940421, 33.7038952152284],
         zoom: 5
     }
-
-    useEffect(() => {
-        fetchGroups();
-    }, [])
-
     function onSelectGroups(ids) {
         fetchGroupsByIds(ids);
     }
 
+    useEffect(() => {
+        fetchGroups();
+        handleError(setShowError, setErrorMessage)
+    }, [])
+
     function fetchGroups() {
         PointService.getGroupsPoints()
             .then(groups => {
-                console.log(groups)
                 setGroups(groups);
             })
             .catch(err => {
@@ -57,10 +58,9 @@ function App() {
         PointService.getGroupsByIds(ids)
             .then(groups => {
                 setSelectedGroups(groups)
-                console.log(groups)
             })
             .catch(err => {
-                console.log(err)
+                setErrorMessage(err)
             })
     }
 
@@ -96,7 +96,10 @@ function App() {
                 options={basemapsDict}
                 onChange={basemap => setBasemap(basemap)}
             />
-            {groups && groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
+            <CustomModal visible={showError} setVisible={setShowError}>
+                {errorMessage}
+            </CustomModal>
+            {groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
             <RLayerVector zIndex={10}>
                 <>
                     {
