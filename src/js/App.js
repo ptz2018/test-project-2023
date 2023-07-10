@@ -52,7 +52,11 @@ function App() {
         }
     }
 
-    const locationIcon = './svg/location.svg';
+    const locationByType = (type) => ({
+        'Red': './png/location_red.png',
+        'Blue': './png/location_blue.png',
+        'Green': './png/location_green.png',
+    })[type] || './png/location_none.png';
 
     return <div className="App">
         <RMap
@@ -68,13 +72,13 @@ function App() {
             />
             { groups && groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
 
+
             { selectedGroups && selectedGroups.length > 0 &&
                 <RLayerVector zIndex={10}>
-                    <RStyle.RStyle>
-                        <RStyle.RIcon src={locationIcon} anchor={[0.5, 0.8]} className="map__icon"/>
-                    </RStyle.RStyle>
+
                     {
                         selectedGroups.map(g => g.points.map(p =>
+
                             <RFeature
                                 key={p.id}
                                 geometry={new Point(fromLonLat([p.y, p.x]))}
@@ -85,11 +89,16 @@ function App() {
                                     })
                                 }
                             >
+                            <>
+                            <RStyle.RStyle>
+                                   <RStyle.RIcon src={locationByType(p.point_type)} anchor={[0.5, 0.8]} className="map__icon"/>
+                               </RStyle.RStyle>
                                 <RPopup trigger={"hover"} className="example-overlay">
                                     <div className="marker_popup">
                                         <p>lon: {p.y} <br/>lat: {p.x}</p>
                                     </div>
                                 </RPopup>
+                                </>
                             </RFeature>))
                     }
                 </RLayerVector> }
