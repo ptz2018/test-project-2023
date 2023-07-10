@@ -1,6 +1,7 @@
 package com.example.projects.service.impl;
 
 import com.example.projects.dto.GroupDTO;
+import com.example.projects.exceptions.GroupNotFoundException;
 import com.example.projects.model.Group;
 import com.example.projects.repository.GroupRepository;
 import com.example.projects.service.GroupService;
@@ -31,7 +32,9 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDTO getGroupById(int id) {
+    public GroupDTO getGroupById(int id) throws GroupNotFoundException {
+        Group group = groupRepository.getById(id);
+        if (group==null) throw new GroupNotFoundException("group with id = "+id+" not found");
         return convertToGroupDTO(groupRepository.getById(id));
     }
 
