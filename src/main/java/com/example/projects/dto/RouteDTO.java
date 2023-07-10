@@ -1,9 +1,5 @@
 package com.example.projects.dto;
 
-import com.example.projects.model.Group;
-import com.example.projects.model.RoutePoint;
-
-import javax.persistence.*;
 import java.util.List;
 
 public class RouteDTO {
@@ -11,18 +7,16 @@ public class RouteDTO {
     private int id;
     private String name;
 
-    private Group group;
-
-    private List<RoutePoint> routePoints;
+    private List<RoutePointDTO> routePoints;
 
     public RouteDTO() {
     }
 
-    public List<RoutePoint> getRoutePoints() {
+    public List<RoutePointDTO> getRoutePoints() {
         return routePoints;
     }
 
-    public void setRoutePoints(List<RoutePoint> routePoints) {
+    public void setRoutePoints(List<RoutePointDTO> routePoints) {
         this.routePoints = routePoints;
     }
 
@@ -42,11 +36,4 @@ public class RouteDTO {
         this.name = name;
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 }

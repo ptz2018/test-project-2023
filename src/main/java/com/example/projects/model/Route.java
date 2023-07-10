@@ -12,7 +12,7 @@ public class Route {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    @JoinColumn(name = "group__id", referencedColumnName = "id")
     private Group group;
 
     @OneToMany(mappedBy = "route")

@@ -10,7 +10,7 @@ public class GroupDTO {
     private String name;
     private Date updatedAt;
     private List<PointDTO> points;
-    private List<Route> routes;
+    private List<RouteDTO> routes;
 
     public GroupDTO(int id, String name, Date updatedAt) {
         this.id = id;
@@ -53,11 +53,11 @@ public class GroupDTO {
         this.updatedAt = updatedAt;
     }
 
-    public List<Route> getRoutes() {
+    public List<RouteDTO> getRoutes() {
         return routes;
     }
 
-    public void setRoutes(List<Route> routes) {
+    public void setRoutes(List<RouteDTO> routes) {
         this.routes = routes;
     }
 }

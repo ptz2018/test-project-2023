@@ -50,4 +50,5 @@ public class Point {
     public void setGroup(Group group) {
         this.group = group;
     }
+
 }
