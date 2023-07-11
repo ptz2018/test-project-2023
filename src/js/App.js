@@ -6,6 +6,7 @@ import {RFeature, RLayerTile, RLayerVector, RMap, RPopup, RStyle} from "rlayers"
 import {fromLonLat} from "ol/proj";
 import {LineString, Point} from "ol/geom";
 import PointService, {handleError} from "./service/PointService";
+import MapService, {handleMapError} from "./service/MapService";
 import CheckboxList from "./components/CheckboxList.jsx";
 import CustomSelect from "./components/UI/CustomSelect.jsx";
 import CustomModal from "./components/modal/CustomModal.jsx";
@@ -24,9 +25,11 @@ function App() {
         {value: "http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", name: "Подробная"},
     ]
 
+
     const [groups, setGroups] = useState([]);
+    const [maps, setMaps] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
-    const [basemap, setBasemap] = useState(basemapsDict[0].value);
+    const [basemap, setBasemap] = useState("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const popup = useRef();
@@ -48,6 +51,21 @@ function App() {
         PointService.getGroupsPoints()
             .then(groups => {
                 setGroups(groups);
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+     useEffect(() => {
+            fetchMaps();
+            handleMapError(setShowError, setErrorMessage)
+      }, [])
+
+    function fetchMaps() {
+        MapService.getMaps()
+            .then(maps => {
+                setMaps(maps);
             })
             .catch(err => {
                 console.log(err)
@@ -98,7 +116,7 @@ function App() {
             <CustomSelect
                 className="map__select"
                 value={basemap}
-                options={basemapsDict}
+                options={maps}
                 onChange={basemap => setBasemap(basemap)}
             />
 

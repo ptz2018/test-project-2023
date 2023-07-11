@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CustomSelect = ({value, options, onChange, className}) => {
-
+    console.log(options)
     return (
         <select
             className={className}
@@ -10,7 +10,7 @@ const CustomSelect = ({value, options, onChange, className}) => {
         >
             {
                 options.map((b) =>
-                    <option value={b.value} key={b.value}>{b.name}</option>
+                    <option value={b.url} key={b.id}>{b.name}</option>
                 )
             }
 
