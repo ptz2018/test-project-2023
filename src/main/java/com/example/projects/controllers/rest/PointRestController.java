@@ -4,19 +4,21 @@ package com.example.projects.controllers.rest;
 import com.example.projects.dto.GroupDTO;
 import com.example.projects.dto.PointDTO;
 import com.example.projects.dto.RouteDTO;
+import com.example.projects.dto.RoutePointDTO;
 import com.example.projects.editors.PointidEditor;
 import com.example.projects.exceptions.GroupNotFoundException;
 import com.example.projects.model.Point;
+import com.example.projects.model.RoutePoint;
 import com.example.projects.repository.GroupRepository;
 import com.example.projects.service.impl.GroupServiceImpl;
 import com.example.projects.service.impl.PointServiceImpl;
+import com.example.projects.service.impl.RoutePointServiceImpl;
 import com.example.projects.service.impl.RouteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class PointRestController {
     private final PointServiceImpl pointService;
     private final RouteServiceImpl routeService;
     private  final GroupRepository groupRepository;
+    private final RoutePointServiceImpl routePointService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -35,11 +38,13 @@ public class PointRestController {
 
     @Autowired
     public PointRestController(GroupServiceImpl groupService, PointServiceImpl pointService,
-                               RouteServiceImpl routeService, GroupRepository groupRepository) {
+                               RouteServiceImpl routeService, GroupRepository groupRepository,
+                               RoutePointServiceImpl routePointService) {
         this.groupService = groupService;
         this.pointService = pointService;
         this.routeService = routeService;
         this.groupRepository = groupRepository;
+        this.routePointService = routePointService;
     }
 
     @GetMapping
@@ -62,9 +67,14 @@ public class PointRestController {
         return groupService.getGroupById(id);
     }
 
-    @PatchMapping("/{point}")
+    @PatchMapping("/point/{point}")
     public PointDTO updatePoint(@PathVariable Point point, @RequestBody PointDTO pointDTO) {
         return pointService.update(pointDTO, point);
+    }
+
+    @PatchMapping("/route-point/{point}")
+    public RoutePointDTO updateRoutePoint(@PathVariable RoutePoint point, @RequestBody RoutePointDTO routePointDTO){
+        return routePointService.update(routePointDTO, point);
     }
 
     @GetMapping("/ids")

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface RoutePointRepository extends JpaRepository<RoutePoint, Integer> {
 
     @Modifying
-    @Query("update RoutePoint p set p.x=:#{#point.x}, p.y=:#{#point.y} where p.id =:#{#point.id}")
+    @Query("update RoutePoint p set p.x=:#{#point.x}, p.y=:#{#point.y}, p.order=:#{#point.order}, p.route.id=:#{#point.route.id} where p.id=:#{#point.id}")
     void updateRoutePointById(RoutePoint point);
+
 }

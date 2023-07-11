@@ -56,4 +56,14 @@ public class Point {
 
     public void setDescription(String description) {this.description = description;}
 
+    @Override
+    public String toString() {
+        return "Point{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", description='" + description + '\'' +
+                ", group=" + group +
+                '}';
+    }
 }

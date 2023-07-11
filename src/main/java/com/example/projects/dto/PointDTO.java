@@ -5,7 +5,6 @@ public class PointDTO {
     private double x;
     private double y;
     private String description;
-
     public PointDTO() {
     }
 
@@ -42,4 +41,14 @@ public class PointDTO {
     public String getDescription() {return description;}
 
     public void setDescription(String description) {this.description = description;}
+
+    @Override
+    public String toString() {
+        return "PointDTO{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
