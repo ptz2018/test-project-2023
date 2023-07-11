@@ -1,6 +1,7 @@
 package com.example.projects.service.impl;
 
 import com.example.projects.dto.GroupDTO;
+import com.example.projects.exceptions.GroupNotFoundException;
 import com.example.projects.model.Group;
 import com.example.projects.repository.GroupRepository;
 import com.example.projects.service.GroupService;
@@ -27,11 +28,15 @@ public class GroupServiceImpl implements GroupService {
 
     public List<GroupDTO> getAll(){
         List<Group> groups = groupRepository.findAllGroup();
-        return getConvertedGroup(groups);
+        return getConvertedGroups(groups);
     }
 
     @Override
-    public GroupDTO getGroupById(int id) {
+    public GroupDTO getGroupById(int id) throws GroupNotFoundException {
+        Group group = groupRepository.getById(id);
+        if (group==null) {
+            throw new GroupNotFoundException("group with id = "+id+" not found");
+        }
         return convertToGroupDTO(groupRepository.getById(id));
     }
 
@@ -42,23 +47,21 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupDTO> getGroupsAfterDate(Date date) {
-        return getConvertedGroup(groupRepository.getGroupsAfter(date));
+        return getConvertedGroups(groupRepository.getGroupsAfter(date));
+    }
+
+    public List<GroupDTO> getGroupsByIds(List<Integer> ids) {
+        List<Group> groups = groupRepository.getGroupsByIds(ids);
+        return getConvertedGroups(groups);
     }
 
     private GroupDTO convertToGroupDTO(Group group){
         return modelMapper.map(group,GroupDTO.class);
     }
 
-    private List<GroupDTO> getConvertedGroup(List<Group> groups){
+    private List<GroupDTO> getConvertedGroups(List<Group> groups){
         return groups.stream()
                 .map(this::convertToGroupDTO)
                 .collect(Collectors.toList());
-    }
-
-    public List<GroupDTO> getGroupsByIds(List<Integer> ids) {
-        List<Group> groups = groupRepository.getGroupsByIds(ids);
-        return getConvertedGroup(groups);
-
-
     }
 }

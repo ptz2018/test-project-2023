@@ -1,6 +1,5 @@
 package com.example.projects.model;
 
-
 import com.example.projects.enums.PointTypeEnum;
 import javax.persistence.*;
 
@@ -16,6 +15,7 @@ public class Point {
     private double y;
     @Enumerated(EnumType.STRING)
     private PointTypeEnum pointType;
+    private String description;
     @ManyToOne
     @JoinColumn(name = "group_id", referencedColumnName = "id")
     private Group group;
@@ -58,4 +58,9 @@ public class Point {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
+
 }
