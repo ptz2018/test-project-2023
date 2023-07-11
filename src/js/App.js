@@ -75,6 +75,13 @@ function App() {
         })
     }
 
+    const updatePointDescription = (point) =>{
+        point.description = textArea;
+        PointService.update(point)
+            .then((newPoint)=>point = newPoint)
+            .catch(err=>console.log(err))
+    }
+
     function sortRouteByOrder(a, b) {
         if (a.order > b.order) return -1;
         if (a.order < b.order) return 1;
@@ -84,6 +91,8 @@ function App() {
     const locationIcon = './svg/location.svg';
     const pointIcon = './svg/point.svg';
     const flagIcon = './svg/flag.png';
+
+    const [textArea,setTextArea] = useState();
 
     return <div className="App">
         <RMap
@@ -117,8 +126,17 @@ function App() {
                                         </RStyle.RStyle>
                                         <RPopup ref={popup} trigger={'click'} className="example-overlay">
                                             <div className="marker_popup">
-                                                <p>{p.y} <br/>{p.x},{p.description}</p>
+                                                <p>{p.y} <br/>{p.x} <br/>{p.description}</p>
+                                                <textarea
+                                                placeholder = "Напишите пару слов о данном городе"
+                                                value = {textArea}
+                                                onChange = {e => setTextArea(e.target.value)}
+                                                rows="5"
+                                                cols="33">
+                                                </textarea>
+                                                <button className="btn btn-primary" onClick={() => updatePointDescription(p)}>Изменить</button>
                                             </div>
+
                                         </RPopup>
                                     </RFeature>)
                                 }

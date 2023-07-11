@@ -20,35 +20,65 @@
 
 .map__select {
     position: absolute;
-    top: 10px;
-    right: 25px;
+    top: 20px;
+    right: 44px;
     z-index: 1001;
     padding: 4px 6px;
     border-radius: 10px;
     width: 160px;
     font-family: Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
     font-size: 15px;
+    cursor:pointer;
 }
+
 .ol-zoom{
     display: flex;
     flex-direction: row;
 }
 .ol-zoom-in {
-    padding: 15px;
-    margin-top: 10px;
-    margin-left: 10px;
-    font-size: 30px;
-    margin-top: 850px;
-    margin-left: 900px;
+    position: absolute;
+    margin-top: 880px;
+    margin-left: 80px;
+    font-weight: 700;
+    border: 0;
+    border-radius: 5px;
+    background: #4676d7;
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.ol-zoom-in:hover{
+   background: #1d49aa;
+}
+
+.ol-zoom-in:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
 }
 
 .ol-zoom-out {
-    padding: 15px;
-    margin-top: 10px;
-    margin-left: 10px;
-    font-size: 30px;
-    margin-top: 850px;
-    margin-left: 40px;
+  position: absolute;
+  margin-top: 880px;
+  margin-left: 20px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 5px;
+  background: #4676d7;
+  color: #fff;
+  padding: 15px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.ol-zoom-out:hover{
+  background: #1d49aa;
+}
+
+.ol-zoom-out:focus{
+  outline: none;
+  box-shadow: 0 0 0 4px #cbd6ee;
 }
 
 .ol-rotate {

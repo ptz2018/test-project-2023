@@ -32,4 +32,7 @@ export default class PointService {
     static async getGroupById(id){
         return api.get(`/api/${id}`);
     }
+    static async updatePoint(point){
+        return api.get(`/api/${point.id}`,point)
+    }
 }
