@@ -1,6 +1,5 @@
 package com.example.projects.controllers.rest;
 
-
 import com.example.projects.dto.GroupDTO;
 import com.example.projects.dto.PointDTO;
 import com.example.projects.dto.RouteDTO;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 

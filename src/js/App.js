@@ -81,9 +81,13 @@ function App() {
         return 0;
     }
 
-    const locationIcon = './svg/location.svg';
-    const pointIcon = './svg/point.svg';
-    const flagIcon = './svg/flag.png';
+    const locationByType = (type) => ({
+        'Red': './png/location_red.png',
+        'Blue': './png/location_blue.png',
+        'Green': './png/location_green.png',
+    })[type] || './png/location_none.png';
+    const pointIcon = './png/point.png';
+    const flagIcon = './png/flag.png';
 
     return <div className="App">
         <RMap
@@ -97,47 +101,31 @@ function App() {
                 options={basemapsDict}
                 onChange={basemap => setBasemap(basemap)}
             />
+
             <CustomModal visible={showError} setVisible={setShowError}>
                 {errorMessage}
             </CustomModal>
             {groups.length > 0 && <CheckboxList groups={groups} onChange={onSelectGroups}></CheckboxList>}
-            <RLayerVector zIndex={10}>
+            {selectedGroups.length > 0 && <RLayerVector zIndex={10}>
                 <>
                     {
                         selectedGroups && selectedGroups.length > 0 && selectedGroups.map(g =>
-                            <>
-                                {g.points.map(p =>
-                                    <RFeature
-                                        key={p.id}
-                                        geometry={new Point(fromLonLat([p.y, p.x]))}
-                                        onClick={(e) => handleMarkerClick(e)}
-                                    >
-                                        <RStyle.RStyle>
-                                            <RStyle.RIcon color='blue' src={locationIcon} anchor={[0.5, 0.8]} className="map__icon"/>
-                                        </RStyle.RStyle>
-                                        <RPopup ref={popup} trigger={'click'} className="example-overlay">
-                                            <div className="marker_popup">
-                                                <p>{p.y} <br/>{p.x},{p.description}</p>
-                                            </div>
-                                        </RPopup>
-                                    </RFeature>)
-                                }
-                                {
-                                    g.routes.map(route =>
-                                        <>
+                            [
+                                    ...g.routes.map(route =>
+                                        [
                                             <RFeature
-                                                key={route.id}
+                                                key={`route${route.id}`}
                                                 geometry={
                                                     new LineString(getRoutePointsArray(route))
                                                 }>
                                                 <RStyle.RStyle>
                                                     <RStyle.RStroke color='red' width={4}/>
                                                 </RStyle.RStyle>
-                                            </RFeature>
+                                            </RFeature>,
 
-                                            {route.routePoints.map(point =>
+                                            ...route.routePoints.map(point =>
                                                 <RFeature
-                                                    key={point.id}
+                                                    key={`routepoint${point.id}`}
                                                     geometry={new Point(fromLonLat([point.y, point.x]))}>
                                                     <RStyle.RStyle>
                                                         {
@@ -147,15 +135,38 @@ function App() {
                                                         }
                                                     </RStyle.RStyle>
                                                 </RFeature>)
-                                            }
-                                        < />
+
+                                        ]
                                     )
-                                }
-                            </>
+                                ,
+                                ...g.points.map(p =>
+                                     <RFeature
+                                         key={`point${p.id}`}
+                                         geometry={new Point(fromLonLat([p.y, p.x]))}
+                                         onClick={(e) =>
+                                             e.map.getView().fit(e.target.getGeometry().getExtent(), {
+                                                 duration: 250,
+                                                 maxZoom: 15,
+                                             })
+                                         }
+                                     >
+                                        <>
+                                            <RStyle.RStyle>
+                                               <RStyle.RIcon src={locationByType(p.pointType)} anchor={[0.5, 0.8]} className="map__icon"/>
+                                            </RStyle.RStyle>
+                                            <RPopup trigger={"click"} className="example-overlay">
+                                                <div className="marker_popup">
+                                                    <p>{p.y} <br/>{p.x},{p.description}</p>
+                                                </div>
+                                            </RPopup>
+                                        </>
+                                    </RFeature>
+                                )
+                            ]
                         )
                     }
                 </>
-            </RLayerVector>
+            </RLayerVector>}
         </RMap>
     </div>;
 }
