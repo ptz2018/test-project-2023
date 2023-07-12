@@ -19,8 +19,7 @@ api.interceptors.response.use(
     }
 );
 export default class MapService {
-    static async getMaps(){
-    console.log(api.get(`/api/maps`))
+    static async getMaps() {
         return api.get(`/api/maps`)
     }
 }

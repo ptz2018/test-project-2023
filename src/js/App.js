@@ -12,24 +12,10 @@ import CustomSelect from "./components/UI/CustomSelect.jsx";
 import CustomModal from "./components/modal/CustomModal.jsx";
 
 function App() {
-    const basemapsDict = [
-        {value: "https://tile.openstreetmap.org/{z}/{x}/{y}.png", name: "По умолчанию"},
-        {value: "https://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", name: "Теплая"},
-        {value: "https://{a-c}.tile.opentopomap.org/{z}/{x}/{y}.png", name: "Топографическая "},
-        {value: "https://{a-c}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", name: "Темная"},
-        {value: "https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png", name: "Аэропорты"},
-        {
-            value: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-            name: "Спутник"
-        },
-        {value: "http://tile.mtbmap.cz/mtbmap_tiles/{z}/{x}/{y}.png", name: "Подробная"},
-    ]
-
-
     const [groups, setGroups] = useState([]);
     const [maps, setMaps] = useState([]);
     const [selectedGroups, setSelectedGroups] = useState([]);
-    const [basemap, setBasemap] = useState("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
+    const [basemap, setBasemap] = useState();
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const popup = useRef();
@@ -45,6 +31,8 @@ function App() {
     useEffect(() => {
         fetchGroups();
         handleError(setShowError, setErrorMessage)
+        fetchMaps();
+        handleMapError(setShowError, setErrorMessage);
     }, [])
 
     function fetchGroups() {
@@ -57,15 +45,15 @@ function App() {
             })
     }
 
-     useEffect(() => {
-            fetchMaps();
-            handleMapError(setShowError, setErrorMessage)
-      }, [])
-
     function fetchMaps() {
         MapService.getMaps()
             .then(maps => {
                 setMaps(maps);
+                if (!_.isEmpty(maps)) {
+                    setBasemap(maps[0].url);
+                } else {
+                    setError('Map is not defined');
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -108,7 +96,7 @@ function App() {
     const flagIcon = './png/flag.png';
 
     return <div className="App">
-        <RMap
+        {basemap && <RMap
             className="example-map"
             initial={{center: fromLonLat(center.coords), zoom: center.zoom}}
         >
@@ -185,7 +173,7 @@ function App() {
                     }
                 </>
             </RLayerVector>}
-        </RMap>
+        </RMap>}
     </div>;
 }
 
