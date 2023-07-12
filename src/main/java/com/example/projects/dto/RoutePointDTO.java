@@ -1,7 +1,5 @@
 package com.example.projects.dto;
 
-import com.example.projects.model.Route;
-
 public class RoutePointDTO {
 
     private int id;

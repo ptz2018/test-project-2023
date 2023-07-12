@@ -1,7 +1,5 @@
 package com.example.projects.dto;
 
-import com.example.projects.model.Route;
-
 import java.util.Date;
 import java.util.List;
 
