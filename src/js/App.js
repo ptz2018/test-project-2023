@@ -50,13 +50,14 @@ function App() {
 
     useEffect(() => {
         groups.length && setPointFeatures(groups.map(group => group.points.map((point) =>
-            new Feature({
-                geometry: new Point(fromLonLat([point.y, point.x])),
-                name: "point",
-                id: point.id,
-                point: point,
-            })
-        )).flat());
+                new Feature({
+                    geometry: new Point(fromLonLat([point.y, point.x])),
+                    name: "point",
+                    id: point.id,
+                    point: point,
+                })
+            )
+        ).flat());
         groups.length && setRoutePointFeatures(groups.map(group =>
             group.routes.map((route) =>
                 route.routePoints.map((point) =>
@@ -72,12 +73,8 @@ function App() {
 
     }, [groups]);
 
-    const getFeatureByPointId = (id) => {
-        return _.find(pointFeatures, (p) => p.get("id") === id)
-    }
-    const getFeatureByRoutePointId = (id) => {
-        return _.find(routePointFeatures, (p) => p.get("id") === id)
-    }
+    const getFeatureByPointId = (id) => _.find(pointFeatures, (p) => p.get("id") === id)
+    const getFeatureByRoutePointId = (id) => _.find(routePointFeatures, (p) => p.get("id") === id)
 
     function fetchGroups() {
         PointService.getGroupsPoints()
@@ -194,12 +191,14 @@ function App() {
                                    onClick={() => setCanUpdate(true)}
             >Начать редактирование
             </button>}
-            {canUpdate && <><button className="btn btn-warning map__update-button"
-                                  onClick={() => updatePoint()}>Обновить
-                          </button>
-                          <button className="btn btn-primary map__edit-button"
-                                  onClick={() => setCanUpdate(false)}>Закончить редактирование
-                         </button></>}
+            {canUpdate && <>
+                <button className="btn btn-warning map__update-button"
+                        onClick={() => updatePoint()}>Обновить
+                </button>
+                <button className="btn btn-primary map__edit-button"
+                        onClick={() => setCanUpdate(false)}>Закончить редактирование
+                </button>
+            </>}
             {selectedGroups.length > 0 && <RLayerVector zIndex={10}>
                 <>
                     {
