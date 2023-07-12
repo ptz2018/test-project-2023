@@ -12,7 +12,6 @@ import CheckboxList from "./components/CheckboxList.jsx";
 import CustomSelect from "./components/UI/CustomSelect.jsx";
 import CustomModal from "./components/modal/CustomModal.jsx";
 import {Feature} from "ol";
-import {log} from "ol/console";
 
 function App() {
     const [groups, setGroups] = useState([]);
@@ -25,7 +24,7 @@ function App() {
     const [changedRoutePoints, setChangedRoutePoints] = useState([])
     const [pointFeatures, setPointFeatures] = useState([])
     const [routePointFeatures, setRoutePointFeatures] = useState([])
-
+    const [textArea, setTextArea] = useState();
     const [canUpdate, setCanUpdate] = useState(false);
 
     const popup = useRef();
@@ -124,6 +123,18 @@ function App() {
             .catch(err => {
                 setErrorMessage(err)
             })
+    }
+
+    const updatePointDescription = (group, point) => {
+        PointService.updatePoint(point.id, {
+            ...point,
+            description: textArea,
+        })
+            .then(() => {
+                fetchGroupsByIds(_.map(selectedGroups, 'id'));
+                setTextArea('')
+            })
+            .catch(err => console.log(err))
     }
 
     function updatePoint() {
@@ -249,7 +260,20 @@ function App() {
                                         </RStyle.RStyle>
                                         <RPopup ref={popup} trigger={'click'} className="example-overlay">
                                             <div className="marker_popup">
-                                                <p>{p.y} <br/>{p.x},{p.description}</p>
+                                                <p>{p.description}</p>
+                                                {canUpdate && <>
+                                                    <textarea
+                                                        placeholder="Напишите пару слов о данном городе"
+                                                        value={textArea}
+                                                        onChange={e => setTextArea(e.target.value)}
+                                                        rows="5"
+                                                        cols="33">
+                                                    </textarea>
+                                                    <button className="btn btn-primary"
+                                                            onClick={() => updatePointDescription(g, p)}>Изменить
+                                                    </button>
+                                                </>
+                                                }
                                             </div>
                                         </RPopup>
                                     </RFeature>

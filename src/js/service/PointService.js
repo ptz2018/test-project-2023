@@ -37,7 +37,7 @@ export default class PointService {
         return api.patch(`/api/route-point/${id}`,point)
     }
 
-    static async updatePoint(id, point){
-        return api.patch(`/api/point/${id}`,point)
+    static async updatePoint(id, point) {
+        return api.patch(`/api/point/${point.id}`, point);
     }
 }
