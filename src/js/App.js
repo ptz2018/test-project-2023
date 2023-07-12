@@ -75,11 +75,15 @@ function App() {
         })
     }
 
-    const updatePointDescription = (point) =>{
-        point.description = textArea;
-        PointService.update(point)
-            .then((newPoint)=>point = newPoint)
-            .catch(err=>console.log(err))
+    const updatePointDescription = (group, point) =>{
+        PointService.updatePoint({
+                ...point,
+                description: textArea,
+            })
+            .then(() => {
+                fetchGroupsByIds(_.map(selectedGroups, 'id'));
+            })
+            .catch(err => console.log(err))
     }
 
     function sortRouteByOrder(a, b) {
@@ -134,7 +138,7 @@ function App() {
                                                 rows="5"
                                                 cols="33">
                                                 </textarea>
-                                                <button className="btn btn-primary" onClick={() => updatePointDescription(p)}>Изменить</button>
+                                                <button className="btn btn-primary" onClick={() => updatePointDescription(g, p)}>Изменить</button>
                                             </div>
 
                                         </RPopup>
