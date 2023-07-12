@@ -2,6 +2,7 @@ package com.example.projects.service.impl;
 
 import com.example.projects.dto.PointDTO;
 import com.example.projects.dto.RoutePointDTO;
+import com.example.projects.model.Point;
 import com.example.projects.model.RoutePoint;
 import com.example.projects.repository.RoutePointRepository;
 import com.example.projects.service.RoutePointService;
@@ -18,24 +19,22 @@ public class RoutePointServiceImpl implements RoutePointService {
     private final ModelMapper modelMapper;
 
     private final RoutePointRepository routePointRepository;
+
+    private TypeMap<RoutePointDTO, RoutePoint> pointDTOPointTypeMap;
+
+
     @Autowired
     public RoutePointServiceImpl(ModelMapper modelMapper, RoutePointRepository routePointRepository) {
         this.modelMapper = modelMapper;
         this.routePointRepository = routePointRepository;
+        pointDTOPointTypeMap = modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class)
+                .addMappings(mapper -> mapper.skip(RoutePoint::setId));
     }
 
     @Override
     @Transactional
     public RoutePointDTO update(RoutePointDTO pointDTO, RoutePoint point) {
-        TypeMap<RoutePointDTO, RoutePoint> typeMap = modelMapper.getTypeMap(RoutePointDTO.class, RoutePoint.class);
-        if(typeMap == null) {
-            modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class,
-                            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT))
-                    .addMappings(mapper -> {
-                        mapper.skip(RoutePoint::setId);
-                    });
-        }
-        modelMapper.map(pointDTO, point);
+        pointDTOPointTypeMap.map(pointDTO, point);
         routePointRepository.updateRoutePointById(point);
         return convertToPointDTO(routePointRepository.getById(point.getId()));
     }

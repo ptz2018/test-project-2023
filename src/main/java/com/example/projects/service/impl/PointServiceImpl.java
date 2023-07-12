@@ -16,26 +16,23 @@ import javax.transaction.Transactional;
 @Service
 public class PointServiceImpl implements PointService {
 
+
     private final PointRepository pointRepository;
     private final ModelMapper modelMapper;
+    private TypeMap<PointDTO, Point> pointDTOPointTypeMap;
 
     @Autowired
     public PointServiceImpl(PointRepository pointRepository, ModelMapper modelMapper) {
         this.pointRepository = pointRepository;
         this.modelMapper = modelMapper;
+        pointDTOPointTypeMap = modelMapper.createTypeMap(PointDTO.class, Point.class)
+                .addMappings(mapper -> mapper.skip(Point::setId));
     }
 
     @Override
     @Transactional
     public PointDTO update(PointDTO pointDTO, Point point) {
-        TypeMap<PointDTO, Point> typeMap = modelMapper.getTypeMap(PointDTO.class, Point.class);
-        if (typeMap == null) {
-            modelMapper.createTypeMap(PointDTO.class, Point.class)
-                    .addMappings(mapper -> {
-                        mapper.skip(Point::setId);
-                    });
-        }
-        modelMapper.map(pointDTO, point);
+        pointDTOPointTypeMap.map(pointDTO, point);
         pointRepository.updatePointById(point);
         return convertToPointDTO(pointRepository.getById(point.getId()));
     }
