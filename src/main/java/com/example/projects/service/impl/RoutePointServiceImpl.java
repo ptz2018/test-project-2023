@@ -29,7 +29,8 @@ public class RoutePointServiceImpl implements RoutePointService {
     public RoutePointDTO update(RoutePointDTO pointDTO, RoutePoint point) {
         TypeMap<RoutePointDTO, RoutePoint> typeMap = modelMapper.getTypeMap(RoutePointDTO.class, RoutePoint.class);
         if(typeMap == null) {
-            modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class, modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT))
+            modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class,
+                            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT))
                     .addMappings(mapper -> {
                         mapper.skip(RoutePoint::setId);
                     });

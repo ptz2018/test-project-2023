@@ -128,7 +128,7 @@ function App() {
     }
 
     const getRoutePointsArray = (route) => {
-        return route.routePoints.sort((a, b) => a.order - b.order)
+        return _.sortBy(route.routePoints,['order'])
             .map(point => getFeatureByRoutePointId(point.id).getGeometry().getFirstCoordinate())
     }
 
