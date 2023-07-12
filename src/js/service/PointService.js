@@ -32,4 +32,12 @@ export default class PointService {
     static async getGroupById(id){
         return api.get(`/api/${id}`);
     }
+
+    static async updateRoutePoint(id, point){
+        return api.patch(`/api/route-point/${id}`,point)
+    }
+
+    static async updatePoint(id, point){
+        return api.patch(`/api/point/${id}`,point)
+    }
 }

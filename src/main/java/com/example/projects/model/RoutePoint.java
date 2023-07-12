@@ -11,6 +11,7 @@ public class RoutePoint {
     private int id;
     private double x;
     private double y;
+    @Column(name = "`order`")
     private int order;
     @ManyToOne
     @JoinColumn(name = "route_id", referencedColumnName = "id")
@@ -57,5 +58,16 @@ public class RoutePoint {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    @Override
+    public String toString() {
+        return "RoutePoint{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", order=" + order +
+                ", route=" + route +
+                '}';
     }
 }

@@ -35,8 +35,6 @@
 }
 .ol-zoom-in {
     padding: 15px;
-    margin-top: 10px;
-    margin-left: 10px;
     font-size: 30px;
     margin-top: 850px;
     margin-left: 900px;
@@ -44,8 +42,6 @@
 
 .ol-zoom-out {
     padding: 15px;
-    margin-top: 10px;
-    margin-left: 10px;
     font-size: 30px;
     margin-top: 850px;
     margin-left: 40px;
@@ -61,4 +57,16 @@
     background: white;
     padding: 5px 10px;
     border-radius: 5px;
+}
+.map__update-button {
+    position: absolute;
+    right: 25px;
+    bottom: 150px;
+    z-index: 1001;
+}
+.map__edit-button {
+    position: absolute;
+    right: 25px;
+    bottom: 100px;
+    z-index: 1001;
 }

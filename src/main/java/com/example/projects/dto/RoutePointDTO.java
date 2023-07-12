@@ -43,4 +43,13 @@ public class RoutePointDTO {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "RoutePointDTO{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", order=" + order +
+                '}';
+    }
 }
