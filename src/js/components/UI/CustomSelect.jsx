@@ -10,7 +10,6 @@ const CustomSelect = ({value, options, onChange, className}) => <select
                 <option value={b.url} key={b.id}>{b.name}</option>
             )
         }
-
     </select>;
 
 export default CustomSelect;

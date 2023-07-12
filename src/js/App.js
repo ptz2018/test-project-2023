@@ -107,7 +107,6 @@ function App() {
                 options={maps}
                 onChange={basemap => setBasemap(basemap)}
             />
-
             <CustomModal visible={showError} setVisible={setShowError}>
                 {errorMessage}
             </CustomModal>
@@ -141,7 +140,6 @@ function App() {
                                                         }
                                                     </RStyle.RStyle>
                                                 </RFeature>)
-
                                         ]
                                     )
                                 ,
