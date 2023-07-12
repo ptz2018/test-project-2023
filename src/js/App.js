@@ -11,6 +11,7 @@ import CheckboxList from "./components/CheckboxList.jsx";
 import CustomSelect from "./components/UI/CustomSelect.jsx";
 import CustomModal from "./components/modal/CustomModal.jsx";
 import {Feature} from "ol";
+import {log} from "ol/console";
 
 function App() {
     const basemapsDict = [
@@ -33,6 +34,8 @@ function App() {
     const [errorMessage, setErrorMessage] = useState('');
     const [changedPoints, setChangedPoints] = useState([])
     const [changedRoutePoints, setChangedRoutePoints] = useState([])
+    const [pointFeatures, setPointFeatures] = useState([])
+    const [routePointFeatures, setRoutePointFeatures] = useState([])
 
     const popup = useRef();
 
@@ -52,6 +55,37 @@ function App() {
         handleError(setShowError, setErrorMessage)
     }, [])
 
+    useEffect(()=>{
+        groups.length && setPointFeatures(groups.map(group => group.points.map((point, index)=>
+            new Feature({
+                geometry: new Point(fromLonLat([point.y, point.x])),
+                name: "point",
+                id: point.id,
+                point: point,
+        })
+    )).flat());
+        groups.length && setRoutePointFeatures(groups.map(group =>
+            group.routes.map((route) =>
+                route.routePoints.map((point) =>
+                    new Feature({
+                        geometry: new Point(fromLonLat([point.y, point.x])),
+                        name: "route_point",
+                        point: point,
+                        id: point.id,
+                    })
+                )
+            )
+        ).flat(3));
+
+    },[groups]);
+
+    const getFeatureByPointId = (id) =>{
+        return _.find(pointFeatures, (p)=>p.get("id")===id)
+    }
+    const getFeatureByRoutePointId = (id) =>{
+        return _.find(routePointFeatures, (p)=>p.get("id")===id)
+    }
+
     function fetchGroups() {
         PointService.getGroupsPoints()
             .then(groups => {
@@ -64,32 +98,19 @@ function App() {
 
     const handleMovePoint = useCallback(e => {
         const point_name = e.features.item(0).get("name");
-        const point_id = e.features.item(0).get("id");
-        const route_id = e.features.item(0).get("route_id");
-        const group_id = e.features.item(0).get("group_id");
+        const point = e.features.item(0).get("point");
         const coords = toLonLat(e.features.item(0).getGeometry().getFirstCoordinate())
-        const group = _.find(groups, (obj) => obj.id === group_id);
-        if (group) {
-            if (point_name === "route_point") {
-                const route = _.find(group.routes, (obj) => obj.id === route_id);
-                if (route) {
-                    const point = _.find(route.routePoints, (obj) => obj.id === point_id);
-                    if (point) {
-                        point.x = coords[1];
-                        point.y = coords[0];
-                        setChangedRoutePoints([...changedRoutePoints, point])
-                    }
-                }
-            } else if (point_name === "point") {
-                const point = _.find(group.points, (obj) => obj.id === point_id);
-                if (point) {
-                    point.x = coords[1];
-                    point.y = coords[0];
-                    setChangedPoints([...changedPoints, point])
-                }
-            }
+
+        point.x = coords[1];
+        point.y = coords[0];
+
+        if(point_name==="point"){
+            setChangedPoints([...changedPoints, point])
         }
-    }, [groups, setChangedPoints, setChangedRoutePoints])
+        else if(point_name==="route_point"){
+            setChangedRoutePoints([...changedRoutePoints, point])
+        }
+    }, [groups, changedPoints, changedRoutePoints])
 
     function fetchGroupsByIds(ids) {
         PointService.getGroupsByIds(ids)
@@ -102,13 +123,13 @@ function App() {
     }
 
     function updatePoint() {
-        if(changedPoints.length) changedPoints.forEach((point)=>PointService.updatePoint(point.id, point))
-        else if (changedRoutePoints.length) changedRoutePoints.forEach((point)=>PointService.updateRoutePoint(point.id, point))
+        if (changedPoints.length) changedPoints.forEach((point)=>PointService.updatePoint(point.id, point))
+        if (changedRoutePoints.length) changedRoutePoints.forEach((point)=>PointService.updateRoutePoint(point.id, point))
     }
 
     const getRoutePointsArray = (route) => {
         return route.routePoints.sort((a, b) => a.order - b.order)
-            .map(point => fromLonLat([point.y, point.x]))
+            .map(point => getFeatureByRoutePointId(point.id).getGeometry().getFirstCoordinate())
     }
 
     const handleMarkerClick = (e) => {
@@ -145,14 +166,9 @@ function App() {
                         selectedGroups && selectedGroups.length > 0 && selectedGroups.map(g =>
                             <>
                                 {g.points.map((p) =>
-                                    <RFeature
+                                <RFeature
                                         key={p.id}
-                                        feature={new Feature({
-                                            geometry: new Point(fromLonLat([p.y, p.x])),
-                                            id: p.id,
-                                            group_id: g.id,
-                                            name: "point"
-                                        })}
+                                        feature={getFeatureByPointId(p.id)}
                                         onClick={(e) => handleMarkerClick(e)}
                                     >
                                         <RStyle.RStyle>
@@ -174,10 +190,10 @@ function App() {
                                                 geometry={
                                                     new LineString(getRoutePointsArray(route))
                                                 }
-                                                onPointerDrag={(e)=>e.preventDefault()}
+                                                onPointerDrag={(e)=>e.stopPropagation()}
                                             >
                                                 <RStyle.RStyle>
-                                                    <RStyle.RStroke color={colors[index] ? colors[index] : 'red'}
+                                                    <RStyle.RStroke color={colors[index % (colors.length-1)]}
                                                                     width={4}/>
                                                 </RStyle.RStyle>
                                             </RFeature>
@@ -185,13 +201,7 @@ function App() {
                                             {route.routePoints.map(point =>
                                                 <RFeature
                                                     key={point.id}
-                                                    feature={new Feature({
-                                                        geometry: new Point(fromLonLat([point.y, point.x])),
-                                                        id: point.id,
-                                                        route_id: route.id,
-                                                        group_id: g.id,
-                                                        name: "route_point"
-                                                    })}
+                                                    feature={getFeatureByRoutePointId(point.id)}
                                                 >
                                                     <RStyle.RStyle>
                                                         {
@@ -213,6 +223,7 @@ function App() {
             </RLayerVector>
             <RInteraction.RTranslate
                 onTranslateEnd={handleMovePoint}
+                filter={(f)=>f.get("id")}
             />
         </RMap>
     </div>;
