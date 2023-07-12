@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import './App.scss';
 import './styles/map.scss';
 import _ from 'lodash';
@@ -215,7 +215,6 @@ function App() {
                     {
                         selectedGroups && selectedGroups.length > 0 && selectedGroups.map(g =>
                             [
-
                                 ...g.routes.map((route, index) =>
                                     [
                                         <RFeature

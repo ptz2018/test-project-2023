@@ -27,8 +27,11 @@ public class RoutePointServiceImpl implements RoutePointService {
     public RoutePointServiceImpl(ModelMapper modelMapper, RoutePointRepository routePointRepository) {
         this.modelMapper = modelMapper;
         this.routePointRepository = routePointRepository;
-        pointDTOPointTypeMap = modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class)
-                .addMappings(mapper -> mapper.skip(RoutePoint::setId));
+        pointDTOPointTypeMap = modelMapper.createTypeMap(RoutePointDTO.class, RoutePoint.class,
+                modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT))
+                .addMappings(mapper -> {
+                    mapper.skip(RoutePoint::setId);
+                });
     }
 
     @Override
