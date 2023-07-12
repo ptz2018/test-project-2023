@@ -1,6 +1,5 @@
 package com.example.projects.controllers.rest;
 
-
 import com.example.projects.dto.GroupDTO;
 import com.example.projects.dto.PointDTO;
 import com.example.projects.dto.RouteDTO;
