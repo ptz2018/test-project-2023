@@ -7,6 +7,7 @@ const CustomModal = ({children, visible, setVisible}) => {
         ['create_object_modal',
         visible && 'modal__active']
     );
+    console.log(children)
     return <div className={rootClasses.join(' ')} onMouseDown={() => setVisible(false)}>
             <div className={'my_modal alert alert-danger'} onMouseDown={(e)=>e.stopPropagation()} >
                 <button
@@ -16,7 +17,7 @@ const CustomModal = ({children, visible, setVisible}) => {
                     aria-label="Close"
                     style={{marginLeft: '93%'}}
                 ></button>
-                {children}
+                {_.isString(children) ? children : 'Unknown error'}
             </div>
         </div>;
 };
