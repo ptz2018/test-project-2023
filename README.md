@@ -30,3 +30,9 @@ Open the console and print:
 mvn clean spring-boot:run
 ```
 After that you can have access to app via http://localhost:8080/
+## Interface
+![geoapp1](https://github.com/ptz2018/test-project-2023/assets/105431661/fbd678a7-307d-4431-ad31-a15f328babcc)
+
+![geoapp2](https://github.com/ptz2018/test-project-2023/assets/105431661/d4cbc4a0-7fd6-4442-aff3-e883a4af2f2a)
+
+
