@@ -3,7 +3,7 @@ import './App.scss';
 import './styles/map.scss';
 import _ from 'lodash';
 
-import {RFeature, RInteraction, RLayerTile, RLayerVector, RMap, RPopup, RStyle} from "rlayers";
+import {RFeature, RInteraction, RLayerCluster, RLayerTile, RLayerVector, RMap, RPopup, RStyle} from "rlayers";
 import {fromLonLat, toLonLat} from "ol/proj";
 import {LineString, Point} from "ol/geom";
 import PointService, {handleError} from "./service/PointService";
@@ -26,14 +26,14 @@ function App() {
     const [routePointFeatures, setRoutePointFeatures] = useState([])
     const [textArea, setTextArea] = useState();
     const [canUpdate, setCanUpdate] = useState(false);
-
+    const [distance, setDistance] = React.useState(20);
     const popup = useRef();
 
     const colors = ['red', 'blue', 'green', 'yellow', 'teal', 'black']
 
     const center = {
         coords: [44.59223056940421, 33.7038952152284],
-        zoom: 5
+        zoom: 0
     }
 
     function onSelectGroups(ids) {
@@ -181,6 +181,25 @@ function App() {
     const pointIcon = './png/point.png';
     const flagIcon = './png/flag.png';
 
+    const render = useCallback((feature, resolution) => {
+        const size = feature.get("features").length;
+        if (size > 1) {
+            return <>
+                <RStyle.RCircle radius={15}>
+                    <RStyle.RFill color={'green'}/>
+                </RStyle.RCircle>
+                <RStyle.RText text={size.toString()}>
+                    <RStyle.RFill color="#fff"/>
+                    <RStyle.RStroke color="rgba(0, 0, 0, 0.6)" width={3}/>
+                </RStyle.RText>
+            </>;
+        } else {
+            const unclusteredFeature = feature.get("features")[0];
+            const point = unclusteredFeature.get("point")
+            return <RStyle.RIcon src={locationByType(point.pointType)} anchor={[0.5, 0.8]} className="map__icon"/>
+        }
+    }, []);
+
     return <div className="App">
         {basemap && <RMap
             className="example-map"
@@ -203,64 +222,30 @@ function App() {
             >Начать редактирование
             </button>}
             {canUpdate && <>
-                <button className="btn btn-warning map__update-button"
-                        onClick={() => updatePoint()}>Обновить
+                <button className="btn btn-primary map__update-button"
+                        onClick={() => updatePoint()}>Сохранить карту
                 </button>
                 <button className="btn btn-primary map__edit-button"
                         onClick={() => setCanUpdate(false)}>Закончить редактирование
                 </button>
             </>}
-            {selectedGroups.length > 0 && <RLayerVector zIndex={10}>
-                <>
+            {!canUpdate &&
+                <RLayerCluster distance={distance} >
+                    <RStyle.RStyle
+                        render={render}
+                    />
                     {
                         selectedGroups && selectedGroups.length > 0 && selectedGroups.map(g =>
                             [
-                                ...g.routes.map((route, index) =>
-                                    [
-                                        <RFeature
-                                            key={`route${route.id}`}
-                                            geometry={
-                                                new LineString(getRoutePointsArray(route))
-                                            }
-                                        >
-                                            <RStyle.RStyle>
-                                                <RStyle.RStroke color={colors[index % (colors.length - 1)]}
-                                                                width={4}/>
-                                            </RStyle.RStyle>
-                                        </RFeature>,
-
-                                        ...route.routePoints.map(point =>
-                                            <RFeature
-                                                key={point.id}
-                                                feature={getFeatureByRoutePointId(point.id)}
-                                            >
-                                                <RStyle.RStyle>
-                                                    {
-                                                        point.order === 1 || point.order === route.routePoints.length
-                                                            ? <RStyle.RIcon color={'red'} src={flagIcon}
-                                                                            anchor={[0.2, 0.95]}/>
-                                                            : <RStyle.RIcon color={'blue'} src={pointIcon}/>
-                                                    }
-                                                </RStyle.RStyle>
-                                            </RFeature>)
-
-                                    ]
-                                )
-                                ,
                                 ...g.points.map(p =>
                                     <RFeature
                                         key={p.id}
                                         feature={getFeatureByPointId(p.id)}
-                                        onClick={(e) => handleMarkerClick(e)}
                                     >
-                                        <RStyle.RStyle>
-                                            <RStyle.RIcon src={locationByType(p.pointType)} anchor={[0.5, 0.8]}
-                                                          className="map__icon"/>
-                                        </RStyle.RStyle>
                                         <RPopup ref={popup} trigger={'click'} className="example-overlay">
                                             <div className="marker_popup">
                                                 <p>{p.description}</p>
-                                                {canUpdate && <>
+                                                { canUpdate && <>
                                                     <textarea
                                                         placeholder="Напишите пару слов о данном городе"
                                                         value={textArea}
@@ -280,8 +265,76 @@ function App() {
                             ]
                         )
                     }
-                </>
+
+                </RLayerCluster>}
+
+            {selectedGroups && selectedGroups.length > 0 && <RLayerVector zIndex={10}>
+                {selectedGroups.map(g =>
+                    [
+                        ...g.routes.map((route, index) =>
+                            [
+                                <RFeature
+                                    key={`route${route.id}`}
+                                    geometry={
+                                        new LineString(getRoutePointsArray(route))
+                                    }
+                                >
+                                    <RStyle.RStyle>
+                                        <RStyle.RStroke color={colors[index % (colors.length - 1)]}
+                                                        width={3}/>
+                                    </RStyle.RStyle>
+                                </RFeature>,
+                                ...route.routePoints.map(point =>
+                                    <RFeature
+                                        key={point.id}
+                                        feature={getFeatureByRoutePointId(point.id)}
+                                    >
+                                        <RStyle.RStyle>
+                                            {
+                                                point.order === 1 || point.order === route.routePoints.length
+                                                    ? <RStyle.RIcon color={'red'} src={flagIcon}
+                                                                    anchor={[0.2, 0.95]}/>
+                                                    : <RStyle.RIcon color={'blue'} src={pointIcon}/>
+                                            }
+                                        </RStyle.RStyle>
+                                    </RFeature>)
+                            ]
+                        ),
+                        ...g.points.map(p => {
+                                return canUpdate && <RFeature
+                                    key={p.id}
+                                    feature={getFeatureByPointId(p.id)}
+                                    onClick={(e) => handleMarkerClick(e)}
+                                >
+                                    <RStyle.RStyle>
+                                        <RStyle.RIcon src={locationByType(p.pointType)} anchor={[0.5, 0.8]}
+                                                      className="map__icon"/>
+                                    </RStyle.RStyle>
+                                    <RPopup ref={popup} trigger={'click'} className="example-overlay">
+                                        <div className="marker_popup">
+                                            <p>{p.description}</p>
+                                            {canUpdate && <>
+                                                    <textarea
+                                                        placeholder="Напишите пару слов о данном городе"
+                                                        value={textArea}
+                                                        onChange={e => setTextArea(e.target.value)}
+                                                        rows="5"
+                                                        cols="33">
+                                                    </textarea>
+                                                <button className="btn btn-primary"
+                                                        onClick={() => updatePointDescription(g, p)}>Изменить
+                                                </button>
+                                            </>
+                                            }
+                                        </div>
+                                    </RPopup>
+                                </RFeature>
+                            }
+                        )
+                    ]
+                )}
             </RLayerVector>}
+
             <RInteraction.RTranslate
                 onTranslateEnd={handleMovePoint}
                 filter={(f) => canUpdate && f.get("id")}
