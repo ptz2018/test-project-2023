@@ -222,7 +222,7 @@ function App() {
             >Начать редактирование
             </button>}
             {canUpdate && <>
-                <button className="btn btn-primary map__update-button"
+                <button className="btn btn-success map__update-button"
                         onClick={() => updatePoint()}>Сохранить карту
                 </button>
                 <button className="btn btn-primary map__edit-button"
