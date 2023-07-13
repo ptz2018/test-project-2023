@@ -203,7 +203,7 @@ function App() {
             >Начать редактирование
             </button>}
             {canUpdate && <>
-                <button className="btn btn-warning map__update-button"
+                <button className="btn btn-success map__update-button"
                         onClick={() => updatePoint()}>Обновить
                 </button>
                 <button className="btn btn-primary map__edit-button"
